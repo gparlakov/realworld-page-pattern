@@ -10,7 +10,7 @@
     "component-selector": [
       true,
       "element",
-      "realworld-page-pattern",
+      ["realworld-page-pattern", "rpp"],
       "kebab-case"
     ]
   },
