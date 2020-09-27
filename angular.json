@@ -10,7 +10,7 @@
       },
       "root": "apps/conduit",
       "sourceRoot": "apps/conduit/src",
-      "prefix": "realworld-page-pattern",
+      "prefix": "rpp",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Observable } from 'rxjs';
+import { PageHome } from './page.home';
 @Component({
-  selector: 'realworld-page-pattern-home',
+  selector: 'rpp-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
+  tags$: Observable<string[]>;
+  tagsLoading$: Observable<boolean>;
 
-  constructor() { }
+  constructor(private page: PageHome) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.tags$ = this.page.tags.data$;
+    this.tagsLoading$ = this.page.tags.loading$;
+    this.page.onEnterPage();
   }
-
 }
