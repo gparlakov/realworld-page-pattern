@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ArticlePreview } from './home.types';
-import { PageHome } from './page.home';
+import { ArticlePreview } from './articles.types';
+import { PageArticles } from './page.articles';
 @Component({
-  selector: 'rpp-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'rpp-articles-list',
+  templateUrl: './articles-list.component.html',
+  styleUrls: ['./articles-list.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class ArticlesListComponent implements OnInit {
   tags$: Observable<string[]>;
   tagsLoading$: Observable<boolean>;
   articles$: Observable<ArticlePreview[]>;
   articlesLoading$: Observable<boolean>;
 
-  constructor(private page: PageHome) {}
+  constructor(private page: PageArticles) {}
 
   ngOnInit() {
     this.tags$ = this.page.tags.data$;

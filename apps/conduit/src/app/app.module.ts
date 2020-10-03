@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
       {
         path: '',
         loadChildren: () =>
-          import('./home/home.module').then((h) => h.HomeModule),
+          import('./articles/articles-list.module').then((h) => h.HomeModule),
       },
       {
         path: '**',

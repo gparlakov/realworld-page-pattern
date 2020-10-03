@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home.component';
+import { ArticlesListComponent } from './articles-list.component';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 
 
 @NgModule({
-  declarations: [HomeComponent],
+  declarations: [ArticlesListComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {
         path: '',
-        component: HomeComponent,
+        component: ArticlesListComponent,
       },
     ]),
     ComponentsModule

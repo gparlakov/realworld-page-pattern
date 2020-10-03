@@ -4,10 +4,11 @@ import { map } from 'rxjs/operators';
 import { articlesURL, tagsURL } from '../core/api-urls';
 import { Loadable } from '../core/loadable';
 import { ArticlesPreviewResponse, TagsResponse } from '../core/types';
-import { ArticlePreview } from './home.types';
+import { ArticlePreview } from './articles.types';
+import { stringIsNotEmpty } from '../core/string-is-empty';
 
 @Injectable({ providedIn: 'root' })
-export class PageHome {
+export class PageArticles {
   public tags = new Loadable<string[]>();
   public articles = new Loadable<ArticlePreview[]>();
 
@@ -16,7 +17,9 @@ export class PageHome {
   onEnterPage() {
     this.tags.clearCache();
     this.tags.load(() =>
-      this.http.get<TagsResponse>(tagsURL).pipe(map((r) => r.tags))
+      this.http
+        .get<TagsResponse>(tagsURL)
+        .pipe(map((r) => r.tags.filter(stringIsNotEmpty)))
     );
 
     this.articles.clearCache();
