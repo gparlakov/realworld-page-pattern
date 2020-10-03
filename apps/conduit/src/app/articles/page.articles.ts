@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { articlesURL, tagsURL } from '../core/api-urls';
@@ -41,6 +41,8 @@ export class PageArticles {
     );
 
     this.loadArticles(null, reset);
+
+    this.articles.data$.subscribe((v) => console.log(v));
   }
 
   private loadArticles(filter?: ArticlesFilter, doReset?: typeof reset) {
@@ -52,50 +54,50 @@ export class PageArticles {
         .pipe(
           map(this.mapToArticlePreview()),
           withLatestFrom(this.articles.data$),
-          map(([next, current]) => (doReset === reset ? next : [...current, ...next]))
+          map(([next, current]) =>
+            doReset === reset ? next : [...current, ...next]
+          )
         )
     );
   }
 
-  private mapToArticlePreview(): (value: ArticlesPreviewResponse, index: number) => { profileImg: string; author: string; publishedOn: string; likes: number; slug: string; title: string; shortDescription: string; }[] {
-    return (a) => a.articles.map((ar) => ({
-      profileImg: ar?.author?.image || 'generic-image',
-      author: ar?.author?.username || 'unknown author',
-      publishedOn: ar?.createdAt,
-      likes: ar?.favoritesCount,
-      slug: ar.slug,
-      title: ar.title,
-      shortDescription: typeof ar.description === 'string'
-        ? ar.description.slice(
-          0,
-          ar.description.length > 400 ? 400 : ar.description.length
-        )
-        : '-',
-    }));
+  private mapToArticlePreview(): (
+    value: ArticlesPreviewResponse,
+    index: number
+  ) => {
+    profileImg: string;
+    author: string;
+    publishedOn: string;
+    likes: number;
+    slug: string;
+    title: string;
+    shortDescription: string;
+  }[] {
+    return (a) =>
+      a.articles.map((ar) => ({
+        profileImg: ar?.author?.image || 'generic-image',
+        author: ar?.author?.username || 'unknown author',
+        publishedOn: ar?.createdAt,
+        likes: ar?.favoritesCount,
+        slug: ar.slug,
+        title: ar.title,
+        shortDescription:
+          typeof ar.description === 'string'
+            ? ar.description.slice(
+                0,
+                ar.description.length > 400 ? 400 : ar.description.length
+              )
+            : '-',
+      }));
   }
 
-  private doFiltring(filter: ArticlesFilter) {
-    return {
-      params: this.filter != null
-        ? {
-          tag: filter.tag,
-          author: filter.author,
-          favorited: filter.favorited,
-          offset: filter.offset != null &&
-            typeof filter.offset.toString === 'function'
-            ? filter.offset.toString()
-            : '',
-          limit: filter.limit != null &&
-            typeof filter.limit.toString === 'function'
-            ? filter.limit.toString()
-            : '',
-        }
-        : {},
-    };
+  private doFiltring(filter?: ArticlesFilter) {
+    return filter != null
+      ? Object.keys(filter).reduce((params, v) => ({ ...params, ...hasToString(filter[v]) ? {v: filter[v].toString()} : {} }), {})
+      : undefined;
   }
 
-  onLeavePage() {
-  }
+  onLeavePage() {}
 
   onLoadMoreArticles() {
     const filter =
@@ -108,4 +110,8 @@ export class PageArticles {
 
 function isValidNumber(v: any): v is number {
   return v != null && (!isNaN(v) || !isNaN(parseInt(v, 10)));
+}
+
+function hasToString(v: any): v is { toSting(): string } {
+  return v != null && typeof v.toString === 'function';
 }

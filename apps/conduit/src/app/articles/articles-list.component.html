@@ -1,5 +1,4 @@
 <div class="home-page">
-
   <div class="banner">
     <div class="container">
       <h1 class="logo-font">conduit</h1>
@@ -9,7 +8,6 @@
 
   <div class="container page">
     <div class="row">
-
       <div class="col-md-9">
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
@@ -24,18 +22,18 @@
 
         <div *ngFor="let article of articles$ | async" class="article-preview">
           <div class="article-meta">
-            <a href="profile.html"><img src="{{article.profileImg}}" /></a>
+            <a href="profile.html"><img src="{{ article.profileImg }}" /></a>
             <div class="info">
-              <a href="" class="author">{{article.author}}</a>
-              <span class="date">{{article.publishedOn}}</span>
+              <a href="" class="author">{{ article.author }}</a>
+              <span class="date">{{ article.publishedOn }}</span>
             </div>
             <button class="btn btn-outline-primary btn-sm pull-xs-right">
-              <i class="ion-heart"></i> {{article.likes}}
+              <i class="ion-heart"></i> {{ article.likes }}
             </button>
           </div>
           <a href="" class="preview-link">
-            <h1>{{article.title}}</h1>
-            <p>{{article.description}}</p>
+            <h1>{{ article.title }}</h1>
+            <p>{{ article.description }}</p>
             <span>Read more...</span>
           </a>
         </div>
@@ -47,12 +45,15 @@
 
           <div class="tag-list">
             <rpp-loading *ngIf="tagsLoading$ | async"></rpp-loading>
-            <a href="/tag/{{tag}}" *ngFor="let tag of tags$ | async" class="tag-pill tag-default">{{tag}}</a>
+            <a
+              href="/tag/{{ tag }}"
+              *ngFor="let tag of tags$ | async"
+              class="tag-pill tag-default"
+              >{{ tag }}</a
+            >
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
 </div>

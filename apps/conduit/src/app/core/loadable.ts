@@ -21,9 +21,9 @@ export class Loadable<T> {
       loadFn()
         .pipe(take(1))
         .subscribe({
-          next: v => this._raw$.next({ status: 'loaded', value: v }),
-          error: e =>this._raw$.next({ status: 'errored', error: e }),
-          complete: () => {}
+          next: (v) => this._raw$.next({ status: 'loaded', value: v }),
+          error: (e) => this._raw$.next({ status: 'errored', error: e }),
+          complete: () => {},
         });
     }
   }
@@ -34,7 +34,7 @@ export class Loadable<T> {
   }
 
   clearCache() {
-    this._raw$.next({status: 'initial'});
+    this._raw$.next({ status: 'initial' });
   }
 }
 
