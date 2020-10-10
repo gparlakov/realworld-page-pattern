@@ -37,6 +37,23 @@
             <span>Read more...</span>
           </a>
         </div>
+        <div *ngIf="articlesLoading$ | async; else showLoadMore">
+          <div class="article-meta">
+            <rpp-loading></rpp-loading>
+          </div>
+        </div>
+        <ng-template #showLoadMore>
+          <div class="article-preview">
+            <div class="article-meta">
+              <button
+                class="btn btn-outline-primary btn-sm pull-xs-right"
+                (click)="onLoadMoreButton()"
+              >
+                <i class="ion-plus"></i> Load more...
+              </button>
+            </div>
+          </div>
+        </ng-template>
       </div>
 
       <div class="col-md-3">

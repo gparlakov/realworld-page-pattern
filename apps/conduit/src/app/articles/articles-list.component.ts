@@ -18,8 +18,15 @@ export class ArticlesListComponent implements OnInit {
   ngOnInit() {
     this.tags$ = this.page.tags.data$;
     this.tagsLoading$ = this.page.tags.loading$;
+
     this.articles$ = this.page.articles.data$;
+
+
     this.articlesLoading$ = this.page.articles.loading$;
     this.page.onEnterPage();
+  }
+
+  onLoadMoreButton(){
+    this.page.onLoadMoreArticles();
   }
 }

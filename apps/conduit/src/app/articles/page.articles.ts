@@ -1,28 +1,33 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map, startWith, take, withLatestFrom } from 'rxjs/operators';
 import { articlesURL, tagsURL } from '../core/api-urls';
 import { Loadable } from '../core/loadable';
 import { ArticlesPreviewResponse, TagsResponse } from '../core/types';
 import { ArticlePreview } from './articles.types';
 import { stringIsNotEmpty } from '../core/string-is-empty';
+import { of } from 'rxjs';
 export interface ArticlesFilter {
-  tag?: 'string'; //=AngularJS
+  tag?: string | string[]; //=AngularJS
 
   //Filter by author:
-  author?: 'string'; //=jake
+  author?: string; //=jake
 
   //Favorited by user:
-  favorited?: 'string'; //=jake
+  favorited?: string; //=jake
 
   //Limit number of articles (default is 20):
-  limit: number; //=20
+  limit: string; //=20
 
   //Offset/skip number of articles (default is 0):
-  offset?: number; //=0
+  offset?: string; //=0
+
+  [param: string]: string | string[];
 }
 
 export const reset = 'reset';
+
+export const defaultLimit = '5';
 
 @Injectable({ providedIn: 'root' })
 export class PageArticles {
@@ -41,24 +46,28 @@ export class PageArticles {
     );
 
     this.loadArticles(null, reset);
-
-    this.articles.data$.subscribe((v) => console.log(v));
   }
 
   private loadArticles(filter?: ArticlesFilter, doReset?: typeof reset) {
-    this.filter = filter || { limit: 20 };
-    this.articles.clearCache();
-    this.articles.load(() =>
-      this.http
-        .get<ArticlesPreviewResponse>(articlesURL, this.doFiltring(filter))
-        .pipe(
-          map(this.mapToArticlePreview()),
-          withLatestFrom(this.articles.data$),
-          map(([next, current]) =>
-            doReset === reset ? next : [...current, ...next]
+    this.filter = filter || { limit: defaultLimit };
+
+    if (doReset === reset) {
+      this.articles.clearCache();
+      // start with an empty array
+      this.articles.load(() => of([]));
+    }
+
+    this.articles.data$.pipe(take(1)).subscribe(current => {
+      this.articles.clearCache();
+      this.articles.load(() =>
+        this.http
+          .get<ArticlesPreviewResponse>(articlesURL, { params: this.filter })
+          .pipe(
+            map(this.mapToArticlePreview()),
+            map(next => [...current, ...next])
           )
-        )
-    );
+      );
+    });
   }
 
   private mapToArticlePreview(): (
@@ -91,27 +100,22 @@ export class PageArticles {
       }));
   }
 
-  private doFiltring(filter?: ArticlesFilter) {
-    return filter != null
-      ? Object.keys(filter).reduce((params, v) => ({ ...params, ...hasToString(filter[v]) ? {v: filter[v].toString()} : {} }), {})
-      : undefined;
-  }
-
   onLeavePage() {}
 
   onLoadMoreArticles() {
     const filter =
       this.filter && isValidNumber(this.filter.offset)
-        ? { ...this.filter, offset: this.filter.offset + 20 }
-        : { offset: 0, limit: 20 };
+        ? {
+            ...this.filter,
+            offset: `${
+              parseInt(this.filter.offset, 10) + parseInt(defaultLimit, 10)
+            }`,
+          }
+        : { offset: '0', limit: defaultLimit };
     this.loadArticles(filter);
   }
 }
 
 function isValidNumber(v: any): v is number {
   return v != null && (!isNaN(v) || !isNaN(parseInt(v, 10)));
-}
-
-function hasToString(v: any): v is { toSting(): string } {
-  return v != null && typeof v.toString === 'function';
 }
