@@ -34,7 +34,7 @@
           <a href="" class="preview-link">
             <h1>{{ article.title }}</h1>
             <p>{{ article.description }}</p>
-            <span>Read more...</span>
+            <a [routerLink]="'article/' + article.slug">Read more...</a>
           </a>
         </div>
         <div *ngIf="articlesLoading$ | async; else showLoadMore">

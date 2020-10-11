@@ -20,8 +20,6 @@ export class ArticlesListComponent implements OnInit {
     this.tagsLoading$ = this.page.tags.loading$;
 
     this.articles$ = this.page.articles.data$;
-
-
     this.articlesLoading$ = this.page.articles.loading$;
     this.page.onEnterPage();
   }

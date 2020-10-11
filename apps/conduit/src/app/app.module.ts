@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, UrlSegment } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -11,6 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
+      {
+        path: 'article/:id',
+        loadChildren: () =>
+          import('./article-read/article-read.module').then(
+            (h) => h.ArticleReadModule
+          ),
+      },
       {
         path: '',
         loadChildren: () =>
