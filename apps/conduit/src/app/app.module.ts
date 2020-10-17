@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RouterModule, UrlSegment } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { UglyTemporaryUserNotificationsImplementBetterOneWithAToast } from './core/notify-user';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,4 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(h: UglyTemporaryUserNotificationsImplementBetterOneWithAToast) {
+    console.log('we just need this to start logging messages', h)
+  }
+}

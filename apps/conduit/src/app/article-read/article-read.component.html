@@ -5,22 +5,13 @@
       <h1>{{ article.title }}</h1>
 
       <div class="article-meta">
-        <a href=""><img src="{{article.author?.image}}" /></a>
-        <div class="info">
-          <a href="" class="author">{{ article.author?.username }}</a>
-          <span class="date">{{ article.createdAt }}</span>
-        </div>
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-plus-round"></i>
-          &nbsp; Follow {{ article.author?.username }}
-          <span class="counter">(mock count 10)</span>
-        </button>
-        &nbsp;&nbsp;
-        <button class="btn btn-sm btn-outline-primary">
-          <i class="ion-heart"></i>
-          &nbsp; Favorite Post
-          <span class="counter">({{ article.favoutesCount }})</span>
-        </button>
+        <rpp-article-meta
+          [article]="article"
+          (follow)="onFollowAuthor()"
+          (unfollow)="onUnfollowAuthor()"
+          (favorite)="onFavoriteArticle()"
+          (follow)="onFollowArticle()"
+        ></rpp-article-meta>
       </div>
     </div>
   </div>
@@ -29,7 +20,7 @@
     <div class="row article-content">
       <div class="col-md-12">
         <p>{{ article.description }}</p>
-        <h2 id="introducing-ionic">{{article.title}}</h2>
+        <h2 id="introducing-ionic">{{ article.title }}</h2>
         <p>{{ article.body }}</p>
       </div>
     </div>
@@ -38,21 +29,13 @@
 
     <div class="article-actions">
       <div class="article-meta">
-        <a href="profile.html"><img src="http://i.imgur.com/Qr71crq.jpg" /></a>
-        <div class="info">
-          <a href="" class="author">{{article.author?.username}}</a>
-          <span class="date">{{article.updatedAt}}</span>
-        </div>
-
-        <button class="btn btn-sm btn-outline-secondary">
-          <i class="ion-plus-round"></i>
-          &nbsp; Follow {{article.authr?.username}}<span class="counter">(10 mock data update)</span>
-        </button>
-        &nbsp;
-        <button class="btn btn-sm btn-outline-primary">
-          <i class="ion-heart"></i>
-          &nbsp; Favorite Post <span class="counter">({{article.favouritesCount}})</span>
-        </button>
+        <rpp-article-meta
+          [article]="article"
+          (follow)="onFollowAuthor()"
+          (unfollow)="onUnfollowAuthor()"
+          (favorite)="onFavoriteArticle()"
+          (follow)="onFollowArticle()"
+        ></rpp-article-meta>
       </div>
     </div>
 
@@ -99,11 +82,8 @@
         <div class="card">
           <div class="card-block">
             <p class="card-text">
-
-              Mock data implement!
-
-              With supporting text below as a natural lead-in to additional
-              content.
+              Mock data implement! With supporting text below as a natural
+              lead-in to additional content.
             </p>
           </div>
           <div class="card-footer">
@@ -115,9 +95,9 @@
             </a>
             &nbsp;
             <a href="" class="comment-author">
-              Mock data implement! Jacob Schmidt</a>
-            <span class="date-posted">
-              Mock data implement! Dec 29th</span>
+              Mock data implement! Jacob Schmidt</a
+            >
+            <span class="date-posted"> Mock data implement! Dec 29th</span>
             <span class="mod-options">
               <i class="ion-edit"></i>
               <i class="ion-trash-a"></i>

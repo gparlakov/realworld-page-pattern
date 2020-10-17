@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, mapTo, take } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export class Loadable<T> {
@@ -10,6 +10,7 @@ export class Loadable<T> {
     filter(isLoaded),
     map((d: Loaded<T>) => d.value)
   );
+
   loading$ = this._raw$.pipe(map((d) => d.status === 'loading'));
   loadFn: () => Observable<T>;
 
