@@ -26,6 +26,7 @@ export class ArticleMetaComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   onFollowAuthorButton() {

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 
-interface Reaction {
+type CallBack = () => void;
+type Reaction = CallBack | {
   title: string;
   cb: () => void;
-}
+};
 
 export interface ActionableMessage {
   type: 'error' | 'info' | 'success';
@@ -95,30 +96,36 @@ function isActionable(a: ActionableMessage | Reaction): boolean {
     ? isActionable(a.primaryAction)
     : a != null && 'secondaryAction' in a
     ? isActionable(a.secondaryAction)
-    : a != null && typeof (a as Reaction).cb === 'function';
+    : a != null && (typeof a === 'function' || ('cb' in a && typeof a.cb === 'function'));
+}
+
+function titleOr(a: Reaction, or: string = 'Ok'): string {
+  return a != null && 'title' in a ? a.title : or;
 }
 
 @Injectable({ providedIn: 'root' })
 export class UglyTemporaryUserNotificationsImplementBetterOneWithAToast {
-  constructor(private notification: NotificationMessages) {
+  constructor(notification: NotificationMessages) {
+    // app lifetime running subscription
     notification.messages$.subscribe((m) => {
+      const description = m.description || '';
       if (isActionable(m)) {
-        const ok = m.primaryAction?.title || 'Ok';
+        const ok = titleOr(m.primaryAction, 'Ok');
         const response = prompt(
-          `${m.type.toUpperCase()}: ${m.title} ${m.description}`,
+          `${m.type.toUpperCase()}: ${m.title} ${description}`,
           ok
         );
         if (response === ok) {
           if (isActionable(m.primaryAction)) {
-            m.primaryAction.cb();
+            typeof m.primaryAction === 'function' ? m.primaryAction() : m.primaryAction.cb();
           }
         } else {
           if (isActionable(m.secondaryAction)) {
-            m.secondaryAction.cb();
+            typeof m.secondaryAction === 'function' ? m.secondaryAction() : m.secondaryAction.cb();
           }
         }
       } else {
-        alert(`${m.type.toUpperCase()}: ${m.title} ${m.description}`);
+        alert(`${m.type.toUpperCase()}: ${m.title} ${description}`);
       }
     });
   }

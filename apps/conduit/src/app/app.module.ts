@@ -1,10 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { RouterModule, UrlSegment } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { UglyTemporaryUserNotificationsImplementBetterOneWithAToast } from './core/notify-user';
+import { globalFeedPathParam } from './articles/articles.types';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,15 +22,23 @@ import { UglyTemporaryUserNotificationsImplementBetterOneWithAToast } from './co
           ),
       },
       {
-        path: '',
+        path: 'articles',
         loadChildren: () =>
-          import('./articles/articles-list.module').then((h) => h.HomeModule),
+          import('./articles/articles-list.module').then((h) => h.ArticlesListModule),
+      },
+      {
+        path: '',
+        redirectTo: `/articles/feed/${globalFeedPathParam}`,
+        pathMatch: 'full'
       },
       {
         path: '**',
         redirectTo: '',
       },
     ]),
+
+    BrowserAnimationsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],
