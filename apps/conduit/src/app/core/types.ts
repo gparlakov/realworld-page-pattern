@@ -24,3 +24,13 @@ export interface ArticlesPreviewResponse {
   articles: ArticlePreviewResponse[];
   articlesCount: 2;
 }
+
+export interface User {
+  user: {
+    email: string; // "jake@jake.jake",
+    token: string; // "jwt.token.here",
+    username: string; //"jake",
+    bio?: string; // "I work at statefarm",
+    image?: string;
+  };
+}

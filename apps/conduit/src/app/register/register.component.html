@@ -1,0 +1,42 @@
+<div class="auth-page">
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 col-xs-12">
+        <h1 class="text-xs-center">Sign up</h1>
+        <p class="text-xs-center">
+          <a routerLink="/login">Have an account?</a>
+        </p>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <fieldset class="form-group">
+            <input
+              class="form-control form-control-lg"
+              formControlName="username"
+              type="text"
+              placeholder="Your Name"
+              [ngClass]="{'ng-invalid': (usernameErrors$ | async)?.length }"
+            />
+            <div
+              class="invalid-feedback"
+              *ngFor="let e of (usernameErrors$ | async)"
+            >
+              {{ e }}
+            </div>
+          </fieldset>
+          <rpp-email-and-password
+            formControlName="emailAndPass"
+            [emailErrors]="emailErrors$ | async"
+            [passwordErrors]="passwordErrors$ | async"
+          ></rpp-email-and-password>
+          <button
+            class="btn btn-lg btn-primary pull-xs-right"
+            type="submit"
+            [disabled]="registering$ | async"
+          >
+            Sign up
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

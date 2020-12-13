@@ -47,7 +47,7 @@ Alternatively, if you want to make modifications to the theme, check out the [th
   - [Settings](#settings)
   - [Create/Edit Article](#createedit-article)
   - [Article](#article)
-  
+
 
 ## Layout
 
@@ -256,7 +256,7 @@ Alternatively, if you want to make modifications to the theme, check out the [th
           <button class="btn btn-sm btn-outline-secondary action-btn">
             <i class="ion-plus-round"></i>
             &nbsp;
-            Follow Eric Simons 
+            Follow Eric Simons
           </button>
         </div>
 
@@ -486,7 +486,7 @@ Alternatively, if you want to make modifications to the theme, check out the [th
             </button>
           </div>
         </form>
-        
+
         <div class="card">
           <div class="card-block">
             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -518,7 +518,7 @@ Alternatively, if you want to make modifications to the theme, check out the [th
             </span>
           </div>
         </div>
-        
+
       </div>
 
     </div>
