@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { ArticleReadComponent } from './article-read.component';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
-import { ArticleMetaComponent } from './article-meta/article-meta.component';
-
+import { ArticleMetaModule } from "../components/article-meta/article-meta.module";
 @NgModule({
-  declarations: [ArticleReadComponent, ArticleMetaComponent],
+  declarations: [ArticleReadComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([{
       path: '',
       component: ArticleReadComponent
     }]),
-    ComponentsModule
+    ComponentsModule,
+    ArticleMetaModule
   ],
   exports: [RouterModule]
 })

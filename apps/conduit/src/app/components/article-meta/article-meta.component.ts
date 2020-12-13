@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ArticleDetails } from '../article-read.types';
+import { ArticleMeta } from '../../core/article-meta.types';
 
 @Component({
   selector: 'rpp-article-meta',
@@ -9,7 +9,7 @@ import { ArticleDetails } from '../article-read.types';
 export class ArticleMetaComponent implements OnInit {
 
   @Input()
-  article: ArticleDetails;
+  article: ArticleMeta;
 
   @Output()
   favorite = new EventEmitter();
