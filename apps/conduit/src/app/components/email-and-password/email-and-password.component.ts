@@ -35,12 +35,17 @@ export class EmailAndPasswordComponent
         {
           email: typedFormControl(
             '',
-            Validators.compose([Validators.required, Validators.email])
+            {
+              validators: Validators.compose([Validators.required, Validators.email]),
+              updateOn: 'change'
+            }
           ),
-          password: typedFormControl('', Validators.required),
-        },
-        {
-          updateOn: 'blur',
+          password: typedFormControl(
+            '',
+            {
+              validators: Validators.required,
+              updateOn: 'change'
+            }),
         }
       )
     );

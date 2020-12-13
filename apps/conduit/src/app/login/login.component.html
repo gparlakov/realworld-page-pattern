@@ -7,12 +7,19 @@
           <a routerLink="/register">Don't have an account?</a>
         </p>
 
+        <ul class="error-messages" *ngIf="logInError$ | async">
+          <li>Username(email) or password incorrect</li>
+        </ul>
         <form (submit)="onSubmit()">
           <rpp-email-and-password
             [formControl]="usernamePasswordControl"
-            (keyup.enter)="onSubmit"
+            (keyup.enter)="(onSubmit)"
           ></rpp-email-and-password>
-          <button class="btn btn-lg btn-primary pull-xs-right" type="submit" >
+          <button
+            class="btn btn-lg btn-primary pull-xs-right"
+            type="submit"
+            [disabled]="loggingIn$ | async"
+          >
             Sign in
           </button>
         </form>
