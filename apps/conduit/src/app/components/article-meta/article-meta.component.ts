@@ -1,46 +1,42 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ArticleMeta } from '../../core/article-meta.types';
+import { Component, HostBinding, Input } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ArticleMetaService } from "./article-meta.service";
+import { ArticleMeta, ArticleMetaInput } from './article-meta.types';
 
 @Component({
   selector: 'rpp-article-meta',
   templateUrl: './article-meta.component.html',
-  styleUrls: ['./article-meta.component.scss']
+  styleUrls: ['./article-meta.component.scss'],
+  providers: [ArticleMetaService]
 })
-export class ArticleMetaComponent implements OnInit {
+export class ArticleMetaComponent {
 
   @Input()
-  article: ArticleMeta;
+  set article(value: ArticleMetaInput) {
+    this.f.onArticleInput(value);
+  };
+  article$: Observable<ArticleMeta>;
 
-  @Output()
-  favorite = new EventEmitter();
+  @HostBinding('class')
+  className: 'article-meta';
 
-  @Output()
-  unfavorite = new EventEmitter();
-
-  @Output()
-  follow = new EventEmitter();
-
-  @Output()
-  unfollow = new EventEmitter();
-
-  constructor() { }
-
-  ngOnInit(): void {
-
+  constructor(private f: ArticleMetaService) {
+    this.article$ = f.article$;
   }
 
   onFollowAuthorButton() {
-    this.follow.emit();
+    this.f.onFollowAuthorRequest()
   }
+
   onUnfollowAuthorButton() {
-    this.unfollow.emit();
+    this.f.onUnfollowAuthorRequest();
   }
 
   onFavoriteButton() {
-    this.favorite.emit();
+    this.f.onFavoriteRequest();
   }
   onUnfavoriteButton() {
-    this.unfavorite.emit();
+    this.f.onUnfavoriteRequest();
   }
 
 }

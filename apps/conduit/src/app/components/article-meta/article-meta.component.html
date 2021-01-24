@@ -1,37 +1,44 @@
-<a href=""><img src="{{ article?.author?.image }}" /></a>
-<div class="info" *ngIf="article?.author?.following; else follow">
-  <a href="" class="author">{{ article?.author?.username }}</a>
-  <span class="date">{{ article?.createdAt }}</span>
-  <button class="btn btn-sm btn-outline-secondary" (click)="onFollowAuthorButton()">
-    <i class="ion-plus-round"></i>
-    &nbsp; Unfollow {{ article?.author?.username }}
-  </button>
-</div>
-<ng-template #follow>
-  <div class="info">
-    <a href="" class="author">{{ article?.author?.username }}</a>
+<ng-container *ngIf="article$ | async as article">
+  <a href=""><img src="{{ article?.authorImage }}" /></a>
+  <div class="info" *ngIf="article?.following; else follow">
+    <a href="" class="author">{{ article?.author }}</a>
     <span class="date">{{ article?.createdAt }}</span>
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      (click)="onUnfollowAuthorButton()"
+    >
+      <i class="ion-plus-round"></i>
+      &nbsp; Unfollow {{ article?.author }}
+    </button>
   </div>
-  <button class="btn btn-sm btn-outline-secondary" (click)="onFollowAuthorButton()">
-    <i class="ion-plus-round"></i>
-    &nbsp; Follow {{ article?.author?.username }}
+  <ng-template #follow>
+    <div class="info">
+      <a href="" class="author">{{ article?.author }}</a>
+      <span class="date">{{ article?.createdAt }}</span>
+    </div>
+    <button
+      class="btn btn-sm btn-outline-secondary"
+      (click)="onFollowAuthorButton()"
+    >
+      <i class="ion-plus-round"></i>
+      &nbsp; Follow {{ article?.author }}
+    </button>
+  </ng-template>
+  &nbsp;&nbsp;
+  <button
+    class="btn btn-sm btn-outline-primary"
+    *ngIf="article?.favorited; else favorite"
+    (click)="onUnfavoriteButton()"
+  >
+    <i class="ion-heart-broken"></i>
+    &nbsp; Unfavorite Post
+    <span class="counter">({{ article?.likes }})</span>
   </button>
-</ng-template>
-&nbsp;&nbsp;
-<button
-  class="btn btn-sm btn-outline-primary"
-  *ngIf="article?.favorited; else favorite"
-  (click)="onUnfavoriteButton()"
->
-  <i class="ion-heart-broken"></i>
-  &nbsp; Unfavorite Post
-  <span class="counter">({{ article?.favoritesCount }})</span>
-</button>
-<ng-template #favorite>
-  <button class="btn btn-sm btn-outline-primary"
-  (click)="onFavoriteButton()">
-    <i class="ion-heart"></i>
-    &nbsp; Favorite Post
-    <span class="counter">({{ article?.favoritesCount }})</span>
-  </button>
-</ng-template>
+  <ng-template #favorite>
+    <button class="btn btn-sm btn-outline-primary" (click)="onFavoriteButton()">
+      <i class="ion-heart"></i>
+      &nbsp; Favorite Post
+      <span class="counter">({{ article?.likes }})</span>
+    </button>
+  </ng-template>
+</ng-container>

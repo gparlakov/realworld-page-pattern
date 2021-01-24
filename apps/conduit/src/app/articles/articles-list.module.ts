@@ -4,6 +4,7 @@ import { ArticlesListComponent } from './articles-list.component';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 import { feedTypeParam, globalFeedPathParam } from './articles.types';
+import { ArticleMetaModule } from '../components/article-meta/article-meta.module';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { feedTypeParam, globalFeedPathParam } from './articles.types';
         component: ArticlesListComponent,
       }
     ]),
-    ComponentsModule
+    ComponentsModule,
+    ArticleMetaModule
   ]
 })
 export class ArticlesListModule {}

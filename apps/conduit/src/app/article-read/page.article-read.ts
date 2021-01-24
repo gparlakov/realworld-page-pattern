@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { Loadable } from '../core/loadable';
-import { articlesURL } from '../core/api-urls';
-import { ArticleDetails } from './article-read.types';
-import { map, switchMap, take } from 'rxjs/operators';
-import { onErrorStatus, onUnhandledErrorDefault } from '../core/error-matchers';
-import { NotifyUser } from '../core/notify-user';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { articlesURL } from '../core/api-urls';
+import { Loadable } from '../core/loadable';
+import { NotifyUser } from '../core/notify-user';
+import { ArticleDetails } from './article-read.types';
 
 @Injectable({ providedIn: 'root' })
 export class PageArticleRead {
@@ -27,67 +26,5 @@ export class PageArticleRead {
         .get<{ article: ArticleDetails }>(`${articlesURL}/${slug}`)
         .pipe(map((a) => a.article))
     );
-  }
-  onFavoriteRequest() {
-    this.article.data$
-      .pipe(
-        take(1),
-        switchMap((a) => {
-          return this.http.post(`${articlesURL}/${a.slug}/favorite`, {});
-        }),
-        onErrorStatus(401, (e) => {
-          this.notify.error(
-            'Authentication required',
-            'Need to login to favorite this article',
-            {
-              title: 'Take you to login?',
-              cb: () => {
-                this.router.navigateByUrl('/login');
-              },
-            }
-          );
-        }),
-        onUnhandledErrorDefault(
-          this.error,
-          this.notify,
-          'Could not favorite article',
-          'What can you do - nothging?'
-        )
-      )
-      .subscribe();
-  }
-  onUnfavoriteRequest() {
-    this.article.data$
-      .pipe(
-        take(1),
-        switchMap((a) => {
-          return this.http.post(`${articlesURL}/${a.slug}/unfavorite`, {});
-        }),
-        onErrorStatus(401, (e) => {
-          this.notify.error(
-            'Authentication required:',
-            'Need to login to favorite this article',
-            {
-              title: 'Take you to login?',
-              cb: () => {
-                this.router.navigateByUrl('/login');
-              },
-            }
-          );
-        }),
-        onUnhandledErrorDefault(
-          this.error,
-          this.notify,
-          'Could not unfavorite article'
-        )
-      )
-      .subscribe();
-  }
-
-  onUnfollowAuthorRequest() {
-    throw new Error('Method not implemented.');
-  }
-  onFollowAuthorRequest() {
-    throw new Error('Method not implemented.');
   }
 }

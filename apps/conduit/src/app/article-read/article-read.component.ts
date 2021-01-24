@@ -19,18 +19,4 @@ export class ArticleReadComponent implements OnInit {
     this.articleLoading$ = this.page.article.loading$;
     this.article$ = this.page.article.data$;
   }
-
-  onUnfavoriteArticle() {
-    this.page.onUnfavoriteRequest();
-  }
-  onFavoriteArticle() {
-    this.page.onFavoriteRequest();
-  }
-
-  onUnfollowAuthor() {
-    this.page.onUnfollowAuthorRequest();
-  }
-  onFollowAuthor() {
-    this.page.onFollowAuthorRequest();
-  }
 }

@@ -21,11 +21,13 @@
         </div>
 
         <div *ngFor="let article of articles$ | async" class="article-preview">
-         <rpp-article-meta [article]="article"></rpp-article-meta>
+          <div class="article-meta">
+            <rpp-article-meta [article]="article"></rpp-article-meta>
+          </div>
           <a href="" class="preview-link">
             <h1>{{ article.title }}</h1>
             <p>{{ article.description }}</p>
-            <a [routerLink]="'article/' + article.slug">Read more...</a>
+            <a [routerLink]="'/article/' + article.slug">Read more...</a>
           </a>
         </div>
         <div *ngIf="articlesLoading$ | async; else showLoadMore">

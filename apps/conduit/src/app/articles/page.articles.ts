@@ -10,6 +10,7 @@ import { of } from 'rxjs';
 import { onErrorStatus, onUnhandledError, onUnhandledErrorDefault } from '../core/error-matchers';
 import { NotifyUser } from '../core/notify-user';
 import { Router } from '@angular/router';
+import { TokenService } from '../core/token.service';
 export interface ArticlesFilter {
   tag?: string | string[]; //=AngularJS
 
@@ -43,7 +44,7 @@ export class PageArticles {
     private readonly notify: NotifyUser,
     private readonly handler: ErrorHandler,
     private readonly router: Router
-    ) {}
+  ) {}
 
   onEnterPage(type: Feed) {
     this.tags.clearCache();
